@@ -113,4 +113,4 @@ De module is geschreven in de nieuwe async/await syntax (ES2017).
 
 Alle code is conform de [Javascript Standard Style](https://standardjs.com/).
 
-Alle API functies aanvaarden één options parameter als object. Er wordt gebruik gemaakt van object destructing om waarden uit dit object te halen voor het gebruik in de functie. Naar mijn gevoel een elegante manier van werken zowel voor de ontwikkelaar van een functie zelf, als voor diegene die de functie later zal gebruiken. Meer uitleg [hier](https://simonsmith.io/destructuring-objects-as-function-parameters-in-es6).
+Alle API functies aanvaarden één options parameter als object. Er wordt gebruik gemaakt van object destructing om waarden uit dit object te halen voor het gebruik in de functie. Naar mijn gevoel een elegante manier van werken zowel voor de ontwikkelaar van een functie zelf, als voor de gebruiker van de functie. Meer uitleg [hier](https://simonsmith.io/destructuring-objects-as-function-parameters-in-es6).
