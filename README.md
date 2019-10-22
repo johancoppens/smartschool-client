@@ -67,6 +67,7 @@ Vind je hier: [API](./api.md)
  * Vervolgens wordt voor elke gevonden gebruiker de foto opgehaald
  * en weggeschreven als gebruikersnaam.jpeg in de out directory
  */
+// Import smartschool-client
 const ss = require('../index')
 // Import config
 const conf = require('./config')

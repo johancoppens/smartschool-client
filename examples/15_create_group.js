@@ -1,3 +1,4 @@
+// Import smartschool-client
 const ss = require('../index')
 // Import config
 const conf = require('./config')
