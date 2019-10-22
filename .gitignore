@@ -1,3 +1,4 @@
 node_modules
 config.js
-out
+examples/out/*
+!examples/out/.gitkeep
