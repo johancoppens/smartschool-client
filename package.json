@@ -1,0 +1,24 @@
+{
+  "name": "smartschool-client",
+  "version": "1.0.0",
+  "description": "Client voor toegang tot de SmartSchool SOAP WebServices API met Node.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "docs": "jsdoc2md index.js > api.md"
+  },
+  "author": {
+    "name": "Johan Coppens",
+    "email": "johan.coppens@edugolo.be"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "jsonfile": "^5.0.0",
+    "soap": "^0.29.0",
+    "xml2js": "^0.4.22"
+  },
+  "devDependencies": {
+    "jsdoc-to-markdown": "^5.0.2",
+    "standard": "^14.3.1"
+  }
+}
