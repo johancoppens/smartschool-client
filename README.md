@@ -28,7 +28,7 @@ $ npm install
 > Opgelet: Eerst examples/config.template.js hernoemen naar config.js en aanpassen naar de instellingen van je eigen Smartschool platform.
 
 Je kan eerst het script create_sample_data.js in de examples directory uitvoeren om
-je Smartschool platform te voorzien van voorbeeld data.
+je Smartschool platform te voorzien van voorbeeld data. Dan is er ook geen gevaar dat je gegevens van bestaande gebruikers ongewild gaat wijzigen.
 
 ```bash
 $ cd examples
@@ -39,6 +39,7 @@ Uitvoeren voorbeelden
 
 ```bash
 $ node 00_get_user.js
+...
 ```
 
 Alle voorbeelden vind je hier: [Examples](./examples/)
@@ -80,6 +81,7 @@ const main = async () => {
 
     const users = await ss.getUsers({
       groupId: 'demoGroup1',
+      // Use the power of the transformation object! :-)
       transformation: {
         userName: 'gebruikersnaam',
         fileName: (user) => {
@@ -104,3 +106,11 @@ const main = async () => {
 main()
 
 ```
+
+## Opmerkingen over gebruikte Stijl
+
+De module is geschreven in de nieuwe async/await syntax (ES2017).
+
+Alle code is conform de [Javascript Standard Style](https://standardjs.com/).
+
+Alle API functies aanvaarden één options parameter als object. Er wordt gebruik gemaakt van object destructing om waarden uit dit object te halen voor het gebruik in de functie. Naar mijn gevoel een elegante manier van werken zowel voor de ontwikkelaar van een functie zelf, als voor diegene die de functie later zal gebruiken. Meer uitleg [hier](https://simonsmith.io/destructuring-objects-as-function-parameters-in-es6).

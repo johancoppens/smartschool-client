@@ -18,6 +18,7 @@ const main = async () => {
 
     const users = await ss.getUsers({
       groupId: 'demoGroup1',
+      // Use the power of the transformation object! :-)
       transformation: {
         userName: 'gebruikersnaam',
         fileName: (user) => {

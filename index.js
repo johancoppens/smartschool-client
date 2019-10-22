@@ -8,7 +8,7 @@
 
 const soap = require('soap')
 const xmlParse = require('xml2js').parseStringPromise
-const util = require('util')
+// const util = require('util')
 
 module.exports = (function () {
   'use strict'
@@ -446,7 +446,7 @@ module.exports = (function () {
 
   /**
    * Wijzigt een groep.
-   * 
+   *
    * Note: Hiermee kan je geen groepen in de groepenstructuur verplaatsen!
    * Het wijzigen van de parent heeft geen effect.
    * @memberof module:smartschool-client
@@ -784,9 +784,9 @@ module.exports = (function () {
     throw new SmartSchoolClientError(message)
   }
   // Shortcut for console.log
-  const l = (v) => {
-    console.log(util.inspect(v, { color: true, depth: null }))
-  }
+  // const l = (v) => {
+  //   console.log(util.inspect(v, { color: true, depth: null }))
+  // }
 
   // Expose public API
   return {
