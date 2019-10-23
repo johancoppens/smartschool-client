@@ -14,9 +14,12 @@ const main = async () => {
       // userId: 1, // Intern nummer
       userId: 'john.doe', // of gebruikersnaam
       transformation: {
-        name: 'voornaam',
+        name: 'voornaam', // Hernoemen velden
         userName: 'gebruikersnaam',
-        internalNumber: 'internnummer'
+        internalNumber: 'internnummer',
+        helloName: (obj) => { // Calculated field
+          return `Hello ${obj.voornaam} ${obj.naam}!`
+        }
       }
     }
     const res = await ss.getUser(options)
