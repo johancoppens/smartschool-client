@@ -22,7 +22,7 @@ const main = async () => {
     // Log to console
     console.log(util.inspect(res, { color: true, depth: null }))
     // Write to file
-    if (res) await jsonfile.writeFile('./out/12_get_group_or_class.json', res, { spaces: 2, EOL: '\r\n' })
+    if (res) await jsonfile.writeFile('./out/12_get_group.json', res, { spaces: 2, EOL: '\r\n' })
   } catch (e) {
     console.log(e)
   }

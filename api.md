@@ -27,7 +27,7 @@ te halen met nodeJS.
         * [.createGroup(options)](#module_smartschool-client.createGroup) ⇒ <code>Promise</code>
         * [.updateGroup(options)](#module_smartschool-client.updateGroup) ⇒ <code>Promise</code>
         * [.getUserPhoto(userName)](#module_smartschool-client.getUserPhoto) ⇒ <code>Promise.&lt;string&gt;</code>
-        * [.setUserPhoto(userName, photo)](#module_smartschool-client.setUserPhoto) ⇒ <code>Promise.&lt;string&gt;</code>
+        * [.setUserPhoto(userName, photo)](#module_smartschool-client.setUserPhoto) ⇒ <code>Promise</code>
     * _inner_
         * [~SmartSchoolServiceError](#module_smartschool-client.SmartSchoolServiceError)
             * [new SmartSchoolServiceError(message, code)](#new_module_smartschool-client.SmartSchoolServiceError_new)
@@ -227,7 +227,7 @@ De groepen waartoe de gebruiker behoort kan je vinden in het veld groups als een
 
 - [./examples/08_get_users.js](./examples/08_get_users.js)
 - [./examples/09_get_users_in_group.js](./examples/09_get_users_in_group.js)
-- [./examples/10_get_users_in_group_transfrom.js](./examples/10_get_users_in_group_transfrom.js)
+- [./examples/10_get_users_in_group_transform.js](./examples/10_get_users_in_group_transform.js)
 
 
 | Param | Type | Default | Description |
@@ -334,7 +334,7 @@ encoded string in jpeg formaat
 
 <a name="module_smartschool-client.setUserPhoto"></a>
 
-### smartschool-client.setUserPhoto(userName, photo) ⇒ <code>Promise.&lt;string&gt;</code>
+### smartschool-client.setUserPhoto(userName, photo) ⇒ <code>Promise</code>
 Met deze methode kan je de foto van een gebruiker uploaden naar Smartschool als base64
 encoded string in jpeg formaat
 

@@ -312,7 +312,7 @@ module.exports = (function () {
    * @returns {Promise<Array<Object>>}
    * @see {@link ./examples/08_get_users.js}
    * @see {@link ./examples/09_get_users_in_group.js}
-   * @see {@link ./examples/10_get_users_in_group_transfrom.js}
+   * @see {@link ./examples/10_get_users_in_group_transform.js}
    */
   const getUsers = async ({ groupId, recursive = true, transformation } = {}) => {
     if (!initialized) e('Module smartschool-client niet geïnitialiseerd met init()')
@@ -516,7 +516,7 @@ module.exports = (function () {
    * @memberof module:smartschool-client
    * @param {string} userName Gebruikersnaam
    * @param {string} photo Base64 encode string jpeg
-   * @returns {Promise<string>}
+   * @returns {Promise}
    */
   const setUserPhoto = async ({ userName = r(), photo = r() } = {}) => {
     if (!initialized) e('Module smartschool-client niet geïnitialiseerd met init()')

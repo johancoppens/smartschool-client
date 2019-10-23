@@ -32,10 +32,10 @@ const options = {
 
 // Outputs
 {
-  name: 'Johnny',
+  name: 'John',
   userName: 'john.doe',
   internalNumber: 1234,
-  helloName: 'Hello Johnny Doe!'
+  helloName: 'Hello John Doe!'
 }
 ```
 
