@@ -104,12 +104,12 @@ const main = async () => {
     })
 
     // Aanspreken van een smartschool-client functie
-    const res = await ss.getUsers({
+    const users = await ss.getUsers({
       groupId: 'demoGroup1'
     })
 
-    // res is een array met objecten
-    // Doe iets met res, je eigen werk begint hier
+    // users is een array met gebruikers
+    // Doe iets met users, je eigen werk begint hier
     // ...
 
   } catch (e) {
@@ -160,8 +160,8 @@ const main = async () => {
 
     for (const user of users) {
       try {
-        const res = await ss.getUserPhoto({ userName: user.userName })
-        await writeFile(`./out/${user.fileName}`, res, 'base64')
+        const photo = await ss.getUserPhoto({ userName: user.userName })
+        await writeFile(`./out/${user.fileName}`, photo, 'base64')
       } catch (err) {
         console.log(err)
       }
