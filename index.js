@@ -448,7 +448,7 @@ module.exports = (function () {
    * Wijzigt een groep.
    *
    * Note: Hiermee kan je geen groepen in de groepenstructuur verplaatsen!
-   * Het wijzigen van de parent heeft geen effect.
+   * Het wijzigen van de parent heeft geen effect. > vraag aan Smartschool team
    * @memberof module:smartschool-client
    * @param {object} options
    * @param {string} options.groupId Groepsnaam of code
