@@ -13,7 +13,7 @@ const main = async () => {
 
     // Haalt een klas of een groep op met code
     const res = await ss.getGroup({
-      groupOrClassId: '1A1',
+      groupOrClassId: 'demoGroup1',
       transformation: {
         name: 'name',
         description: 'desc'
