@@ -811,6 +811,7 @@ module.exports = (function () {
     createGroup,
     updateGroup,
     getUserPhoto,
-    setUserPhoto
+    setUserPhoto,
+    transformArrayOfObjects
   }
 }())
