@@ -81,6 +81,7 @@ module.exports = (function () {
    * @param {string} options.password Paswoord
    * @param {string} options.firstName Voornaam
    * @param {string} options.surName Achternaam
+   * @param {string} options.registrationNumber stamboeknummer
    * @param {string} [options.internalNumber] Intern nummer
    * @param {string} [options.gender = m] Geslacht
    * @param {string} [options.role = andere] Basisrol
@@ -95,7 +96,8 @@ module.exports = (function () {
     password = r(),
     firstName = r(),
     surName = r(),
-    internalNumber,
+    registrationNumber, // stamboeknummer
+    internalNumber, // intern nummer
     gender = 'm',
     role = 'andere',
     birthDate,
@@ -107,11 +109,12 @@ module.exports = (function () {
       // Niet gevonden
       const params = {
         accesscode: config.accessCode,
-        internnumber: internalNumber,
         username: userName,
         passwd1: password,
         name: firstName,
         surname: surName,
+        stamboeknummer: registrationNumber,
+        internnumber: internalNumber,
         sex: gender,
         basisrol: role,
         birthday: birthDate,
