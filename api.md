@@ -86,6 +86,7 @@ Smartschool zijn geïmplementeerd in deze functie.
 | options.password | <code>string</code> |  | Paswoord |
 | options.firstName | <code>string</code> |  | Voornaam |
 | options.surName | <code>string</code> |  | Achternaam |
+| options.registrationNumber | <code>string</code> |  | stamboeknummer |
 | [options.internalNumber] | <code>string</code> |  | Intern nummer |
 | [options.gender] | <code>string</code> | <code>&quot;m&quot;</code> | Geslacht |
 | [options.role] | <code>string</code> | <code>&quot;andere&quot;</code> | Basisrol |
@@ -306,7 +307,7 @@ Voegt een nieuwe groep toe.
 Wijzigt een groep.
 
 Note: Hiermee kan je geen groepen in de groepenstructuur verplaatsen!
-Het wijzigen van de parent heeft geen effect.
+Het wijzigen van de parent heeft geen effect. > vraag aan Smartschool team
 
 **Kind**: static method of [<code>smartschool-client</code>](#module_smartschool-client)  
 **See**: [./examples/16_update_group.js](./examples/16_update_group.js)  
