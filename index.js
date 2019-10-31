@@ -220,7 +220,7 @@ module.exports = (function () {
       accountType: accountType
     }
     const res = await soapClient.savePasswordAsync(params)
-    return handleJSONDataResponse(res)
+    handleResultCodeResponse(res)
   }
 
   /**
