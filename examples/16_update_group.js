@@ -12,6 +12,8 @@ const main = async () => {
     // Alleen verplichte velden opgegegeven
     const res = await ss.updateGroup({
       groupId: 'demoGroup1.2',
+      // OPGELET! Verplaatsen van groepen werkt niet!
+      // Dit is geen bug, maar de huidige werking van de Smartschool API zelf.
       parent: 'demoGroup2',
       description: 'demogroup smartschool-client na update'
     })

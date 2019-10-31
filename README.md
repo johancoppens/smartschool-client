@@ -43,7 +43,7 @@ smartschool-client biedt je ook een duidelijke en goed gedocumenteerde [API](api
 
 ## Vereisten
 
-* Installatie [Node.js](https://nodejs.org/en/) versie +v8.10.0.
+* Installatie [Node.js](https://nodejs.org/en/) versie +v8.
 * Activeren van de Smartschool API in Algemene instellingen > Webservices. Maak daar bij voorkeur een aangepast profiel aan.
 
 ## Installeren / Gebruik
@@ -62,7 +62,7 @@ $ npm install
 
 > Opgelet: Eerst examples/config.template.js hernoemen naar config.js en aanpassen naar de instellingen van je eigen Smartschool platform.
 
-Je kan eerst het script create_sample_data.js in de examples directory uitvoeren om
+Het is aan te raden om eerst [create_sample_data.js](./examples/create_sample_data.js) in de examples directory uitvoeren om
 je Smartschool platform te voorzien van voorbeeld data. Dan is er ook geen gevaar dat je gegevens van bestaande gebruikers ongewild gaat wijzigen.
 
 ```bash
@@ -175,7 +175,13 @@ main()
 
 ```
 
-## Opmerkingen over gebruikte Stijl
+## Opmerkingen
+
+Het meegeven van de optie parent in de functie updateGroup heeft geen effect. De groep zal niet verplaats worden! Dit is geen bug, maar de huidige werking van de Smartschool API zelf.
+
+Als je een gebruiker manueel toevoegt in gebruikersbeheer van Smartschool, werkt het achteraf updaten van de paswoorden met de functie updateUserPassword van de co-accounts niet. Ik kan niet achterhalen hoe dit komt. De vraag is gesteld aan het Smartschool team.
+
+## Gebruikte Stijl
 
 De module is geschreven in de nieuwe async/await syntax (ES2017).
 

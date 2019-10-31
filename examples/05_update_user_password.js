@@ -9,10 +9,25 @@ const main = async () => {
     // Initialiseer configuratie
     await ss.init(conf)
 
-    // Alleen verplichte velden opgegegeven
-    const res = await ss.updateUserPassword({
-      userName: 'john.doe',
-      password: 'Pa55word'
+    // Hoofdaccount
+    let res = await ss.updateUserPassword({
+      userName: 'jane.roe',
+      password: 'Pa55word',
+      accountType: 0
+    })
+
+    // Co-account 1
+    res = await ss.updateUserPassword({
+      userName: 'jane.roe',
+      password: 'Pa55word1',
+      accountType: 1
+    })
+
+    // Co-account 2
+    res = await ss.updateUserPassword({
+      userName: 'jane.roe',
+      password: 'Pa55word2',
+      accountType: 2
     })
 
     console.log(util.inspect(res, { color: true, depth: null }))

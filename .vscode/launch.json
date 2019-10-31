@@ -13,7 +13,7 @@
       "type": "node",
       "request": "launch",
       "name": "Launch Program",
-      "program": "${workspaceFolder}/examples/15_create_group.js",
+      "program": "${workspaceFolder}/examples/05_update_user_password.js",
       "console": "integratedTerminal",
       "cwd": "${workspaceFolder}/examples",
       "skipFiles": [
