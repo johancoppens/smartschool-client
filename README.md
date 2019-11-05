@@ -2,7 +2,7 @@
 
 Deze module voorziet een aantal functies die een subset van de
 Smartschool SOAP API implementeren in [Node.js](https://nodejs.org/en/).
-De focus ligt op het ophalen van gegegevens van gebruikers en groepen/klassen (data pull).
+De focus ligt op het ophalen van gegevens van gebruikers en groepen/klassen (data pull).
 
 Gecombineerd met bvb [node-cron](https://github.com/node-cron/node-cron) zou je hiermee in staat moeten zijn je eigen geautomatiseerde synchronisatie toepassing voor je school te maken.
 
