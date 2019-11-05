@@ -11,21 +11,21 @@ const main = async () => {
 
     // Hoofdaccount
     let res = await ss.updateUserPassword({
-      userName: 'jane.roe',
+      userName: 'jane.roe3',
       password: 'Pa55word',
       accountType: 0
     })
 
     // Co-account 1
     res = await ss.updateUserPassword({
-      userName: 'jane.roe',
+      userName: 'jane.roe3',
       password: 'Pa55word1',
       accountType: 1
     })
 
     // Co-account 2
     res = await ss.updateUserPassword({
-      userName: 'jane.roe',
+      userName: 'jane.roe3',
       password: 'Pa55word2',
       accountType: 2
     })

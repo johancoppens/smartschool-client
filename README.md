@@ -6,7 +6,7 @@ De focus ligt op het ophalen van gegegevens van gebruikers en groepen/klassen (d
 
 Gecombineerd met bvb [node-cron](https://github.com/node-cron/node-cron) zou je hiermee in staat moeten zijn je eigen geautomatiseerde synchronisatie toepassing voor je school te maken.
 
-Een voorbeeld-toepassing voor het synchroniseren van Smartschool data met een lokale database is in de maak ... stay tuned!
+Een tutorial voor het synchroniseren van Smartschool data met een lokale database, auto genereren paswoorden, auto renderen brieven met paswoorden voor ouders, lijsten excel, sync met G Suit én misschien wel Active Directory is in de maak ... stay tunedi
 
 Waarom zou je deze module gebruiken?
 

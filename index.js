@@ -203,6 +203,7 @@ module.exports = (function () {
    *
    * Note: Als je een gebruiker manueel toevoegt in gebruikersbeheer van Smartschool,
    * werkt het achteraf updaten van de paswoorden van de co-accounts met deze functie niet!
+   * Vraag gesteld aan Smartschool team
    * @memberof module:smartschool-client
    * @param {object} options
    * @param {string} options.userName Gebruikersnaam
