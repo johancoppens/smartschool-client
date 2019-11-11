@@ -137,11 +137,7 @@ Update gebruikersnaam. Kan alleen als er een intern nummer is ingevuld in Smarts
 <a name="module_smartschool-client.updateUserPassword"></a>
 
 ### smartschool-client.updateUserPassword(options) ⇒ <code>Promise</code>
-Update paswoord gebruiker.
-
-Note: Als je een gebruiker manueel toevoegt in gebruikersbeheer van Smartschool,
-werkt het achteraf updaten van de paswoorden van de co-accounts met deze functie niet!
-Vraag gesteld aan Smartschool team
+Update paswoorden Hoofd- en co-accounts gebruiker.
 
 **Kind**: static method of [<code>smartschool-client</code>](#module_smartschool-client)  
 **See**: [./examples/05_update_user_password.js](./examples/05_update_user_password.js)  

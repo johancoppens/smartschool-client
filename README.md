@@ -179,8 +179,6 @@ main()
 
 Het meegeven van de optie parent in de functie updateGroup heeft geen effect. De groep zal niet verplaats worden! Dit is geen bug, maar de huidige werking van de Smartschool API zelf.
 
-Als je een gebruiker manueel toevoegt in gebruikersbeheer van Smartschool, werkt het achteraf updaten van de paswoorden met de functie updateUserPassword van de co-accounts niet. Ik kan niet achterhalen hoe dit komt. De vraag is gesteld aan het Smartschool team.
-
 ## Gebruikte Stijl
 
 De module is geschreven in de nieuwe async/await syntax (ES2017).
