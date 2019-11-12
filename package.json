@@ -11,7 +11,7 @@
     "name": "Johan Coppens",
     "email": "johan.coppens@edugolo.be"
   },
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "jsonfile": "^5.0.0",
     "soap": "^0.29.0",
