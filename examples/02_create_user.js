@@ -14,7 +14,7 @@ const main = async () => {
       userName: 'john.doe2',
       password: 'Pa55word',
       firstName: 'John',
-      surName: 'Doe'
+      lastName: 'Doe'
     })
 
     console.log(util.inspect(res, { color: true, depth: null }))

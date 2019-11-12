@@ -29,7 +29,7 @@ const users = [
     userName: 'john.doe',
     password: 'Pa55word',
     firstName: 'John',
-    surName: 'Doe',
+    lastName: 'Doe',
     gender: 'm',
     birthDate: '1970-01-01',
     internalNumber: '1'
@@ -38,7 +38,7 @@ const users = [
     userName: 'jane.roe',
     password: 'Pa55word',
     firstName: 'Jane',
-    surName: 'Roe',
+    lastName: 'Roe',
     gender: 'f',
     birthDate: '1970-01-02',
     internalNumber: '2'
@@ -47,7 +47,7 @@ const users = [
     userName: 'james.doe',
     password: 'Pa55word',
     firstName: 'James',
-    surName: 'Doe',
+    lastName: 'Doe',
     gender: 'm',
     internalNumber: '3'
   }

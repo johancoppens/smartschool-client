@@ -85,7 +85,7 @@ Smartschool zijn geïmplementeerd in deze functie.
 | options.userName | <code>string</code> |  | Gebruikersnaam |
 | options.password | <code>string</code> |  | Paswoord |
 | options.firstName | <code>string</code> |  | Voornaam |
-| options.surName | <code>string</code> |  | Achternaam |
+| options.lastName | <code>string</code> |  | Achternaam |
 | options.registrationNumber | <code>string</code> |  | stamboeknummer |
 | [options.internalNumber] | <code>string</code> |  | Intern nummer |
 | [options.gender] | <code>string</code> | <code>&quot;m&quot;</code> | Geslacht |
@@ -113,7 +113,7 @@ Note 3: Voor update paswoord, zie updateUserPassword
 | options | <code>object</code> |  |
 | options.userName | <code>string</code> | Gebruikersnaam |
 | [options.firstName] | <code>string</code> | Voornaam |
-| [options.surName] | <code>string</code> | Achternaam |
+| [options.lastName] | <code>string</code> | Achternaam |
 | [options.internalNumber] | <code>string</code> | Intern nummer |
 | [options.gender] | <code>string</code> | Geslacht |
 | [options.role] | <code>string</code> | Basisrol |

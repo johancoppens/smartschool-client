@@ -17,7 +17,7 @@ const main = async () => {
       transformation: {
         // Key is property name resulterende object, value is oorspronkelijke veldnaam
         firstName: 'voornaam', // Hernoemen velden
-        surName: 'naam',
+        lastName: 'naam',
         number: 'klasnummer',
         email: 'emailadres',
         birthDate: 'geboortedatum',

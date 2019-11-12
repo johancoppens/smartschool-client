@@ -80,7 +80,7 @@ module.exports = (function () {
    * @param {string} options.userName Gebruikersnaam
    * @param {string} options.password Paswoord
    * @param {string} options.firstName Voornaam
-   * @param {string} options.surName Achternaam
+   * @param {string} options.lastName Achternaam
    * @param {string} options.registrationNumber stamboeknummer
    * @param {string} [options.internalNumber] Intern nummer
    * @param {string} [options.gender = m] Geslacht
@@ -95,7 +95,7 @@ module.exports = (function () {
     userName = r(),
     password = r(),
     firstName = r(),
-    surName = r(),
+    lastName = r(),
     registrationNumber, // stamboeknummer
     internalNumber, // intern nummer
     gender = 'm',
@@ -112,7 +112,7 @@ module.exports = (function () {
         username: userName,
         passwd1: password,
         name: firstName,
-        surname: surName,
+        surname: lastName,
         stamboeknummer: registrationNumber,
         internnumber: internalNumber,
         sex: gender,
@@ -140,7 +140,7 @@ module.exports = (function () {
    * @param {object} options
    * @param {string} options.userName Gebruikersnaam
    * @param {string} [options.firstName] Voornaam
-   * @param {string} [options.surName] Achternaam
+   * @param {string} [options.lastName] Achternaam
    * @param {string} [options.internalNumber] Intern nummer
    * @param {string} [options.gender] Geslacht
    * @param {string} [options.role] Basisrol
@@ -153,7 +153,7 @@ module.exports = (function () {
   const updateUser = async ({
     userName = r(),
     firstName,
-    surName,
+    lastName,
     gender,
     role,
     birthDate,
@@ -166,7 +166,7 @@ module.exports = (function () {
         accesscode: config.accessCode,
         username: userName,
         name: firstName,
-        surname: surName,
+        surname: lastName,
         sex: gender,
         basisrol: role,
         birthday: birthDate,

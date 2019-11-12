@@ -13,7 +13,7 @@ const main = async () => {
     const res = await ss.updateUser({
       userName: 'john.doe',
       firstName: 'Johnny',
-      surName: 'Doe'
+      lastName: 'Doe'
     })
 
     console.log(util.inspect(res, { color: true, depth: null }))
