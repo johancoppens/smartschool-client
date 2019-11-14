@@ -12,10 +12,11 @@ const main = async () => {
     await ss.init(conf)
     const options = {
       transformation: {
+        groupKey: 'code',
         name: 'name',
         description: 'desc',
         isOfficialClass: 'isOfficial',
-        subGroups: 'children'
+        children: 'children'
       }
     }
 
