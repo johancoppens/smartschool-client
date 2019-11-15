@@ -35,6 +35,7 @@ module.exports = (function () {
     config.accessCode = accessCode
     try {
       soapClient = await soap.createClientAsync(config.apiWSDL)
+      // console.log(util.inspect(soapClient.describe(), true, null))
     } catch (err) {
       throw new SOAPError('createClientAsync')
     }
@@ -75,6 +76,11 @@ module.exports = (function () {
    *
    * Note: Niet alle mogelijke velden van
    * Smartschool zijn geïmplementeerd in deze functie.
+   *
+   * Note2: De gebruiker wordt standaard toegevoegd aan de groep geconfigureerd
+   * in de Webservices pagina van Smartschool in het veld doelgroep. Als je een
+   * gebruiker aan een andere groep wilt toekennen, gebruik dan removeUserFromGroup
+   * en vervolgens addUserToGroup om de gebruiker te verplaatsen.
    * @memberof module:smartschool-client
    * @param {object} options
    * @param {string} options.userName Gebruikersnaam
@@ -372,35 +378,41 @@ module.exports = (function () {
    * @memberof module:smartschool-client
    * @param {object} [options = {}]
    * @param {boolean} [options.flat = true]
+   * @param {string} [options.groupId] Als opgegeven: deze groep en alle children
    * @param {object} [options.transformation]
-   * @returns {Promise<Array<Object>>|Promise<Object>}
+   * @returns {Promise<Array<Object>>|Promise<Object>} null als niet gevonden
    * @see {@link ./examples/13_getGroups_flat.js}
    * @see {@link ./examples/14_getGroups_tree.js}
    */
-  const getGroups = async ({ flat = true, transformation } = {}) => {
+  const getGroups = async ({
+    flat = true,
+    groupId,
+    transformation
+  } = {}) => {
     if (transformation && flat === false) e('options.transformation is niet toegestaan als flat=false')
     if (!initialized) e('Module smartschool-client niet geïnitialiseerd met init()')
     const params = {
       accesscode: config.accessCode
     }
     const res = await soapClient.getAllGroupsAndClassesAsync(params)
-    // result.return.$value is data als base64 encoded xml string. Parse into a js object
-    const data = await xmlParse((Buffer.from(res[0].return.$value, 'base64').toString('utf-8')))
+    // res[0].return.$value is data als base64 encoded xml string. Parse into a js object
+    let data = await xmlParse((Buffer.from(res[0].return.$value, 'base64').toString('utf-8')))
     if (typeof data === 'object') {
+      data = cleanTree(data.groups.group[0]) // Groep "Iedereen"
+      if (groupId) {
+        data = findGroupSubTree(data, groupId)
+      }
       if (flat) {
         if (transformation) {
           return transformArrayOfObjects(
-            flattenTree(
-              cleanTree(data.groups.group)),
+            flattenTree(data),
             transformation
           )
         } else {
-          return flattenTree(
-            cleanTree(data.groups.group)
-          )
+          return flattenTree(data)
         }
       } else {
-        return cleanTree(data.groups.group)
+        return data
       }
     }
     // Kan niet anders dan een Smartschool Service returncode
@@ -714,22 +726,31 @@ module.exports = (function () {
     return newObj
   }
 
-  const cleanTree = (src) => {
-    return src.map(el => {
-      return cleanTreeObj(el)
-    })
+  const findGroupSubTree = (group, code) => {
+    let result = null
+    if (group.code === code) {
+      return group
+    }
+    if (group.children) {
+      group.children.some(child => {
+        result = findGroupSubTree(child, code)
+        return result
+      })
+    }
+    return result
   }
-  const cleanTreeObj = (obj = {}) => {
+
+  const cleanTree = (obj = {}) => {
     Object.entries(obj).map((entry) => {
       switch (entry[0]) {
         case 'children':
           obj[entry[0]] = entry[1][0].group.map(el => {
-            return cleanTreeObj(el)
+            return cleanTree(el)
           })
           break
         case 'titu':
           obj[entry[0]] = entry[1][0].user.map(el => {
-            return cleanTreeObj(el)
+            return cleanTree(el)
           })
           break
         default:
@@ -753,9 +774,7 @@ module.exports = (function () {
 
   const flattenTree = (src) => {
     const flat = []
-    src.forEach(el => {
-      flattenTreeObj(el, flat)
-    })
+    flattenTreeObj(src, flat)
     return flat
   }
 

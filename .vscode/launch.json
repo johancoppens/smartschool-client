@@ -13,7 +13,7 @@
       "type": "node",
       "request": "launch",
       "name": "Launch Program",
-      "program": "${workspaceFolder}/examples/05_update_user_password.js",
+      "program": "${workspaceFolder}/examples/14a_get_groups_sub_tree.js",
       "console": "integratedTerminal",
       "cwd": "${workspaceFolder}/examples",
       "skipFiles": [

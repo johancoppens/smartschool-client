@@ -11,7 +11,7 @@ const main = async () => {
 
     // Alleen verplichte velden opgegegeven
     const res = await ss.createUser({
-      userName: 'john.doe2',
+      userName: 'john.doe',
       password: 'Pa55word',
       firstName: 'John',
       lastName: 'Doe'

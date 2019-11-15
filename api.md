@@ -76,6 +76,11 @@ Voegt een nieuwe gebruiker toe.
 Note: Niet alle mogelijke velden van
 Smartschool zijn geïmplementeerd in deze functie.
 
+Note2: De gebruiker wordt standaard toegevoegd aan de groep geconfigureerd
+in de Webservices pagina van Smartschool in het veld doelgroep. Als je een
+gebruiker aan een andere groep wilt toekennen, gebruik dan removeUserFromGroup
+en vervolgens addUserToGroup om de gebruiker te verplaatsen.
+
 **Kind**: static method of [<code>smartschool-client</code>](#module_smartschool-client)  
 **See**: [./examples/02_create_user.js](./examples/02_create_user.js)  
 
@@ -273,17 +278,19 @@ Als options.flat=false wordt er een object als boomstructuur geretourneerd.
 options.transformation is niet ondersteund in dit geval.
 
 **Kind**: static method of [<code>smartschool-client</code>](#module_smartschool-client)  
+**Returns**: <code>Promise.&lt;Array.&lt;Object&gt;&gt;</code> \| <code>Promise.&lt;Object&gt;</code> - null als niet gevonden  
 **See**
 
 - [./examples/13_getGroups_flat.js](./examples/13_getGroups_flat.js)
 - [./examples/14_getGroups_tree.js](./examples/14_getGroups_tree.js)
 
 
-| Param | Type | Default |
-| --- | --- | --- |
-| [options] | <code>object</code> | <code>{}</code> | 
-| [options.flat] | <code>boolean</code> | <code>true</code> | 
-| [options.transformation] | <code>object</code> |  | 
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [options] | <code>object</code> | <code>{}</code> |  |
+| [options.flat] | <code>boolean</code> | <code>true</code> |  |
+| [options.groupId] | <code>string</code> |  | Als opgegeven: deze groep en alle children |
+| [options.transformation] | <code>object</code> |  |  |
 
 <a name="module_smartschool-client.createGroup"></a>
 
