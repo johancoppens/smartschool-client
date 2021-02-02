@@ -5,32 +5,8 @@ Smartschool SOAP API implementeren in [Node.js](https://nodejs.org/en/) Javascri
 
 Alle functies retourneren pure javascript values/objecten. Je hoeft je niet meer bezig te houden met het parsen van JSON of XML strings en dergelijke.
 
-## Transformeren data
-
-```javascript
-// Een options object met transformation kan er zo uitzien
-const options = {
-  userId: 'john.doe',
-  transformation: {
-    name: 'voornaam', // Hernoemen velden
-    userName: 'gebruikersnaam',
-    internalNumber: 'internnummer',
-    helloName: (obj) => { // Calculated field
-      return `Hello ${obj.voornaam} ${obj.naam}!`
-    }
-  }
-}
-
-// Outputs
-{
-  name: 'John',
-  userName: 'john.doe',
-  internalNumber: 1234,
-  helloName: 'Hello John Doe!'
-}
-```
-
 ## API
+
 Vind je hier: [API](api.md) en [voorbeelden](./examples).
 
 ## Vereisten
@@ -81,7 +57,7 @@ In je eigen project directory, run:
 $ npm install --save github:johancoppens/smartschool-client
 ```
 
-Basic usage:
+## Eenvoudig gebruik:
 
 ```javascript
 // Import SmartSchool client
@@ -111,6 +87,33 @@ const main = async () => {
 }
 main()
 
+```
+
+## Transformeren data
+
+Je kan de output van velden "transformeren" met de transformation option. Gebruik het om velden te hernoemen en berekende velden te maken.
+
+```javascript
+// Een options object met transformation kan er zo uitzien
+const options = {
+  userId: 'john.doe',
+  transformation: {
+    name: 'voornaam', // Hernoemen velden
+    userName: 'gebruikersnaam',
+    internalNumber: 'internnummer',
+    helloName: (obj) => { // Calculated field
+      return `Hello ${obj.voornaam} ${obj.naam}!`
+    }
+  }
+}
+
+// Outputs
+{
+  name: 'John',
+  userName: 'john.doe',
+  internalNumber: 1234,
+  helloName: 'Hello John Doe!'
+}
 ```
 
 ## Advanced Example
