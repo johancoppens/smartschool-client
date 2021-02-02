@@ -5,6 +5,8 @@ Smartschool SOAP API implementeren in [Node.js](https://nodejs.org/en/) Javascri
 
 Alle functies retourneren pure javascript values/objecten. Je hoeft je niet meer bezig te houden met het parsen van JSON of XML strings en dergelijke.
 
+Dit project is verre van compleet, maar zeker bruikbaar. Foutje, voorstellen? Plaats een berichtje in [Issues](https://github.com/johancoppens/smartschool-client/issues).
+
 ## API
 
 Vind je hier: [API](api.md) en [voorbeelden](./examples).
