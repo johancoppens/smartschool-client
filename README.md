@@ -59,6 +59,50 @@ In je eigen project directory, run:
 $ npm install --save github:johancoppens/smartschool-client
 ```
 
+## Nieuw!: sendMessage
+
+Berichten verzenden naar alle gebruikers in een CSV in 30 lijnen! :-)
+
+```javascript
+// Smartschool berichten verzenden vanuit een CSV file
+// CSV met deze opmaak
+// user,app-code
+// jane.roe,UNC94QC
+// john.doe,QH9TLF2
+const ss = require('smartschool-client')
+const conf = require('./config')
+const fs = require('fs')
+const csvjson = require('csvjson')
+
+const main = async () => {
+  await ss.init(conf)
+
+  const lln = csvjson.toObject(fs.readFileSync('./lln_demo.csv', { encoding: 'utf8' }))
+
+  for (const ll of lln) {
+    const title = `Welkom ${ll.voornaam}`
+    const body = `
+      <h3>Hallo ${ll.voornaam}</h3>
+      <p>Hierbij je code om in te loggen op SuperNuperApp: ${ll['app-code']}
+      <p>Veel succes!</p>   
+    `
+    try {
+      await ss.sendMessage({
+        userName: ll.user,
+        title: title,
+        body: body,
+        fromUser: 'noreply'
+      })
+    } catch (e) {
+      console.log(e)
+    }
+  }
+  console.log('Done')
+}
+main()
+
+```
+
 ## Eenvoudig gebruik:
 
 ```javascript
