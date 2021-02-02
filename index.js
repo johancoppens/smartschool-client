@@ -545,6 +545,42 @@ module.exports = (function () {
     handleResultCodeResponse(res)
   }
 
+  /**
+   * Via deze methode kan je een bericht naar de hoofdaccount of een co-account van een bepaalde gebruiker sturen. Het opgeven van de bijlage is optioneel.
+   * Om het eenvoudig te houden zijn attachements voorlopig niet ondersteund
+   * CopyToLVS eveneens niet geïmplementeerd
+   * @memberof module:smartschool-client
+   * @param {object} options
+   * @param {string} options.userName Gebruikersnaam
+   * @param {string} options.title Titel van het bericht
+   * @param {body} options.body Tekst van het bericht
+   * @param {fromUser} options.fromUser Uniek veld gebruiker van de verzender. Geef 'Null' mee om geen verzender in te stellen
+   * @param {number} [options.accountType = 0] Accounttype:'0' = hoofdaccount, '1' = co-account 1 of '2' = co-account 2 ...)
+   * @returns {Promise}
+   * @see {@link ./examples/19_send_message.js}
+   */
+  const sendMessage = async ({
+    userName = r(),
+    title = r(),
+    body = r(),
+    fromUser = 'Null',
+    accountType = 0
+  } = {}) => {
+    const params = {
+      accesscode: config.accessCode,
+      userIdentifier: userName,
+      title: title,
+      body: body,
+      senderIdentifier: fromUser,
+      coaccount: accountType
+    }
+    if (params.senderIdentifier === 'Null') delete params.senderIdentifier
+
+    // Workaround error senderIdentifier = 'Null' not accepted. Simply delete it
+    const res = await soapClient.sendMsgAsync(params)
+    handleResultCodeResponse(res)
+  }
+
   // PRIVATE API FUNCTIONS
   // Non public exposed Smartschool api functions. Only privately used in this module
 
@@ -835,6 +871,7 @@ module.exports = (function () {
     updateGroup,
     getUserPhoto,
     setUserPhoto,
+    sendMessage,
     transformArrayOfObjects
   }
 }())

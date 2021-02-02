@@ -28,6 +28,7 @@ te halen met nodeJS.
         * [.updateGroup(options)](#module_smartschool-client.updateGroup) ⇒ <code>Promise</code>
         * [.getUserPhoto(userName)](#module_smartschool-client.getUserPhoto) ⇒ <code>Promise.&lt;string&gt;</code>
         * [.setUserPhoto(userName, photo)](#module_smartschool-client.setUserPhoto) ⇒ <code>Promise</code>
+        * [.sendMessage(options)](#module_smartschool-client.sendMessage) ⇒ <code>Promise</code>
     * _inner_
         * [~SmartSchoolServiceError](#module_smartschool-client.SmartSchoolServiceError)
             * [new SmartSchoolServiceError(message, code)](#new_module_smartschool-client.SmartSchoolServiceError_new)
@@ -352,6 +353,25 @@ encoded string in jpeg formaat
 | --- | --- | --- |
 | userName | <code>string</code> | Gebruikersnaam |
 | photo | <code>string</code> | Base64 encode string jpeg |
+
+<a name="module_smartschool-client.sendMessage"></a>
+
+### smartschool-client.sendMessage(options) ⇒ <code>Promise</code>
+Via deze methode kan je een bericht naar de hoofdaccount of een co-account van een bepaalde gebruiker sturen. Het opgeven van de bijlage is optioneel.
+Om het eenvoudig te houden zijn attachements voorlopig niet ondersteund
+CopyToLVS eveneens niet geïmplementeerd
+
+**Kind**: static method of [<code>smartschool-client</code>](#module_smartschool-client)  
+**See**: [./examples/19_send_message.js](./examples/19_send_message.js)  
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| options | <code>object</code> |  |  |
+| options.userName | <code>string</code> |  | Gebruikersnaam |
+| options.title | <code>string</code> |  | Titel van het bericht |
+| options.body | <code>body</code> |  | Tekst van het bericht |
+| options.fromUser | <code>fromUser</code> |  | Uniek veld gebruiker van de verzender. Geef 'Null' mee om geen verzender in te stellen |
+| [options.accountType] | <code>number</code> | <code>0</code> | Accounttype:'0' = hoofdaccount, '1' = co-account 1 of '2' = co-account 2 ...) |
 
 <a name="module_smartschool-client.SmartSchoolServiceError"></a>
 

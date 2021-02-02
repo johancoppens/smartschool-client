@@ -1,20 +1,11 @@
 # smartschool-client
 
 Deze module voorziet een aantal functies die een subset van de
-Smartschool SOAP API implementeren in [Node.js](https://nodejs.org/en/).
-De focus ligt op het ophalen van gegevens van gebruikers en groepen/klassen (data pull).
+Smartschool SOAP API implementeren in [Node.js](https://nodejs.org/en/) Javascript.
 
-Gecombineerd met bvb [node-cron](https://github.com/node-cron/node-cron) zou je hiermee in staat moeten zijn je eigen geautomatiseerde synchronisatie toepassing voor je school te maken.
+Alle functies retourneren pure javascript values/objecten. Je hoeft je niet meer bezig te houden met het parsen van JSON of XML strings en dergelijke.
 
-Een tutorial voor het synchroniseren van Smartschool data met een lokale database, auto genereren paswoorden, auto renderen brieven met paswoorden voor ouders, lijsten excel, sync met G Suite én misschien wel Active Directory is in de maak ... stay tuned!
-
-Waarom zou je deze module gebruiken?
-
-Veel complex werk zoals afhandelen SOAP requests, parsen resultaten, opkuisen en omvormen van data, ... wordt voor jou achter de schermen gedaan zodat jij je kan focussen op het echte werk.
-
-Alle functies retourneren pure javascript values. Je hoeft je niet meer bezig te houden met het parsen van JSON of XML strings en dergelijke.
-
-De kracht van het transformation object: Je kan een tranformation object doorgeven aan de meeste functies die data ophalen. smartschool-client zal elke rij/object die terugkomt uit de API door deze transformatie halen, zodat het uiteindelijke resultaat eruit ziet zoals jij het wilt. Hiermee kan je velden selecteren en hernoemen. Als je een transformatiefunctie meegeeft kan je zelfs geheel nieuwe velden maken die het resultaat zijn van een berekening of combinatie van andere velden (calculated fields).
+## Transformeren data
 
 ```javascript
 // Een options object met transformation kan er zo uitzien
@@ -39,7 +30,8 @@ const options = {
 }
 ```
 
-smartschool-client biedt je ook een duidelijke en goed gedocumenteerde [API](api.md) met tal van [voorbeelden](./examples).
+## API
+Vind je hier: [API](api.md) en [voorbeelden](./examples).
 
 ## Vereisten
 
@@ -120,10 +112,6 @@ const main = async () => {
 main()
 
 ```
-
-## API Documentatie
-
-Vind je hier: [API](./api.md)
 
 ## Advanced Example
 
