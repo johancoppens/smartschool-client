@@ -1,7 +1,7 @@
 # smartschool-client
 
 Deze module voorziet een aantal functies die een subset van de
-Smartschool SOAP API implementeren in [Node.js](https://nodejs.org/en/) Javascript.
+[Smartschool](http://www.smartschool.be/smartschool/) SOAP API implementeren in [Node.js](https://nodejs.org/en/) Javascript.
 
 Alle functies retourneren pure javascript values/objecten. Je hoeft je niet meer bezig te houden met het parsen van JSON of XML strings en dergelijke.
 
