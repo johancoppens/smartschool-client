@@ -547,24 +547,31 @@ module.exports = (function () {
 
   /**
    * Via deze methode kan je een bericht naar de hoofdaccount of een co-account van een bepaalde gebruiker sturen. Het opgeven van de bijlage is optioneel.
-   * Om het eenvoudig te houden zijn attachements voorlopig niet ondersteund
-   * CopyToLVS eveneens niet geïmplementeerd
+   * CopyToLVS niet geïmplementeerd
+   * Attachements toevoegen
+   * [
+   *   { “filename”: “test1.docx”, “filedata”: “base64encoded string” },
+   *   { “filename”: “test2.docx”, “filedata”: “base64encoded string” }
+   * ]
    * @memberof module:smartschool-client
    * @param {object} options
    * @param {string} options.userName Gebruikersnaam
    * @param {string} options.title Titel van het bericht
-   * @param {body} options.body Tekst van het bericht
-   * @param {fromUser} options.fromUser Uniek veld gebruiker van de verzender. Geef 'Null' mee om geen verzender in te stellen
+   * @param {string} options.body Tekst van het bericht
+   * @param {string} [options.fromUser = 'Null'] Uniek veld gebruiker van de verzender. Geef 'Null' mee om geen verzender in te stellen
    * @param {number} [options.accountType = 0] Accounttype:'0' = hoofdaccount, '1' = co-account 1 of '2' = co-account 2 ...)
+   * @param {Object[]} [options.attachments = []]  Bijlagen (1 of meer) in base64 encoding (optioneel)
    * @returns {Promise}
    * @see {@link ./examples/19_send_message.js}
+   * @see {@link ./examples/20_send_message_attachments.js}
    */
   const sendMessage = async ({
     userName = r(),
     title = r(),
     body = r(),
     fromUser = 'Null',
-    accountType = 0
+    accountType = 0,
+    attachments = []
   } = {}) => {
     const params = {
       accesscode: config.accessCode,
@@ -572,12 +579,20 @@ module.exports = (function () {
       title: title,
       body: body,
       senderIdentifier: fromUser,
-      coaccount: accountType
+      coaccount: accountType,
+      attachments: attachments
     }
+    // Workaround error senderIdentifier = 'Null' not accepted. Simply delete it
     if (params.senderIdentifier === 'Null') delete params.senderIdentifier
 
-    // Workaround error senderIdentifier = 'Null' not accepted. Simply delete it
+    if (params.attachments === []) {
+      delete params.attachments
+    } else {
+      params.attachments = JSON.stringify(params.attachments)
+    }
+
     const res = await soapClient.sendMsgAsync(params)
+
     handleResultCodeResponse(res)
   }
 

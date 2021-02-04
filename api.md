@@ -358,20 +358,29 @@ encoded string in jpeg formaat
 
 ### smartschool-client.sendMessage(options) ⇒ <code>Promise</code>
 Via deze methode kan je een bericht naar de hoofdaccount of een co-account van een bepaalde gebruiker sturen. Het opgeven van de bijlage is optioneel.
-Om het eenvoudig te houden zijn attachements voorlopig niet ondersteund
-CopyToLVS eveneens niet geïmplementeerd
+CopyToLVS niet geïmplementeerd
+Attachements toevoegen
+[
+  { “filename”: “test1.docx”, “filedata”: “base64encoded string” },
+  { “filename”: “test2.docx”, “filedata”: “base64encoded string” }
+]
 
 **Kind**: static method of [<code>smartschool-client</code>](#module_smartschool-client)  
-**See**: [./examples/19_send_message.js](./examples/19_send_message.js)  
+**See**
+
+- [./examples/19_send_message.js](./examples/19_send_message.js)
+- [./examples/20_send_message_attachments.js](./examples/20_send_message_attachments.js)
+
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | options | <code>object</code> |  |  |
 | options.userName | <code>string</code> |  | Gebruikersnaam |
 | options.title | <code>string</code> |  | Titel van het bericht |
-| options.body | <code>body</code> |  | Tekst van het bericht |
-| options.fromUser | <code>fromUser</code> |  | Uniek veld gebruiker van de verzender. Geef 'Null' mee om geen verzender in te stellen |
+| options.body | <code>string</code> |  | Tekst van het bericht |
+| [options.fromUser] | <code>string</code> | <code>&quot;&#x27;Null&#x27;&quot;</code> | Uniek veld gebruiker van de verzender. Geef 'Null' mee om geen verzender in te stellen |
 | [options.accountType] | <code>number</code> | <code>0</code> | Accounttype:'0' = hoofdaccount, '1' = co-account 1 of '2' = co-account 2 ...) |
+| [options.attachments] | <code>Array.&lt;Object&gt;</code> | <code>[]</code> | Bijlagen (1 of meer) in base64 encoding (optioneel) |
 
 <a name="module_smartschool-client.SmartSchoolServiceError"></a>
 
