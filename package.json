@@ -13,12 +13,12 @@
   },
   "license": "MIT",
   "dependencies": {
-    "jsonfile": "^5.0.0",
-    "soap": "^0.29.0",
-    "xml2js": "^0.4.22"
+    "jsonfile": "^6.1.0",
+    "soap": "^0.36.0",
+    "xml2js": "^0.4.23"
   },
   "devDependencies": {
-    "jsdoc-to-markdown": "^5.0.2",
-    "standard": "^14.3.1"
+    "jsdoc-to-markdown": "^7.0.0",
+    "standard": "^16.0.3"
   }
 }
