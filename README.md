@@ -7,7 +7,7 @@ Alle functies retourneren pure javascript values/objecten. Je hoeft je niet meer
 
 Dit project is verre van compleet, maar zeker bruikbaar. Foutje, voorstellen? Plaats een berichtje in [Issues](https://github.com/johancoppens/smartschool-client/issues).
 
-Een praktisch voorbeeld kan je vinden hier vinden: https://github.com/johancoppens/smartschool2gsheet
+Een praktisch voorbeeld kan je hier vinden: https://github.com/johancoppens/smartschool2gsheet
 
 ## API
 
