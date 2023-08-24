@@ -8,34 +8,81 @@ te halen met nodeJS.
 
 
 * [smartschool-client](#module_smartschool-client)
-    * _static_
-        * [.init(options)](#module_smartschool-client.init) ⇒ <code>Promise</code>
-        * [.getUser(options)](#module_smartschool-client.getUser) ⇒ <code>Promise.&lt;Object&gt;</code>
-        * [.createUser(options)](#module_smartschool-client.createUser) ⇒ <code>Promise</code>
-        * [.updateUser(options)](#module_smartschool-client.updateUser) ⇒ <code>Promise</code>
-        * [.updateUserName(options)](#module_smartschool-client.updateUserName) ⇒ <code>Promise</code>
-        * [.updateUserPassword(options)](#module_smartschool-client.updateUserPassword) ⇒ <code>Promise</code>
-        * [.setUserStateActive(options)](#module_smartschool-client.setUserStateActive) ⇒ <code>Promise</code>
-        * [.setUserStateInactive(options)](#module_smartschool-client.setUserStateInactive) ⇒ <code>Promise</code>
-        * [.setUserStateAdministrative(options)](#module_smartschool-client.setUserStateAdministrative) ⇒ <code>Promise</code>
-        * [.addUserToGroup(options)](#module_smartschool-client.addUserToGroup) ⇒ <code>Promise</code>
-        * [.removeUserFromGroup(options)](#module_smartschool-client.removeUserFromGroup) ⇒ <code>Promise</code>
-        * [.getUsers([options])](#module_smartschool-client.getUsers) ⇒ <code>Promise.&lt;Array.&lt;Object&gt;&gt;</code>
-        * [.getClasses([options])](#module_smartschool-client.getClasses) ⇒ <code>Promise.&lt;Array.&lt;Object&gt;&gt;</code>
-        * [.getGroup([options])](#module_smartschool-client.getGroup) ⇒ <code>Promise.&lt;Object&gt;</code>
-        * [.getGroups([options])](#module_smartschool-client.getGroups) ⇒ <code>Promise.&lt;Array.&lt;Object&gt;&gt;</code> \| <code>Promise.&lt;Object&gt;</code>
-        * [.createGroup(options)](#module_smartschool-client.createGroup) ⇒ <code>Promise</code>
-        * [.updateGroup(options)](#module_smartschool-client.updateGroup) ⇒ <code>Promise</code>
-        * [.getUserPhoto(userName)](#module_smartschool-client.getUserPhoto) ⇒ <code>Promise.&lt;string&gt;</code>
-        * [.setUserPhoto(userName, photo)](#module_smartschool-client.setUserPhoto) ⇒ <code>Promise</code>
-        * [.sendMessage(options)](#module_smartschool-client.sendMessage) ⇒ <code>Promise</code>
-    * _inner_
-        * [~SmartSchoolServiceError](#module_smartschool-client.SmartSchoolServiceError)
-            * [new SmartSchoolServiceError(message, code)](#new_module_smartschool-client.SmartSchoolServiceError_new)
-        * [~SOAPError](#module_smartschool-client.SOAPError)
-            * [new SOAPError(message)](#new_module_smartschool-client.SOAPError_new)
-        * [~SmartSchoolClientError](#module_smartschool-client.SmartSchoolClientError)
-            * [new SmartSchoolClientError(message)](#new_module_smartschool-client.SmartSchoolClientError_new)
+    * [.SmartSchoolServiceError](#module_smartschool-client.SmartSchoolServiceError)
+        * [new SmartSchoolServiceError(message, code)](#new_module_smartschool-client.SmartSchoolServiceError_new)
+    * [.SOAPError](#module_smartschool-client.SOAPError)
+        * [new SOAPError(message)](#new_module_smartschool-client.SOAPError_new)
+    * [.SmartSchoolClientError](#module_smartschool-client.SmartSchoolClientError)
+        * [new SmartSchoolClientError(message)](#new_module_smartschool-client.SmartSchoolClientError_new)
+    * [.init(options)](#module_smartschool-client.init) ⇒ <code>Promise</code>
+    * [.getUser(options)](#module_smartschool-client.getUser) ⇒ <code>Promise.&lt;Object&gt;</code>
+    * [.createUser(options)](#module_smartschool-client.createUser) ⇒ <code>Promise</code>
+    * [.updateUser(options)](#module_smartschool-client.updateUser) ⇒ <code>Promise</code>
+    * [.updateUserName(options)](#module_smartschool-client.updateUserName) ⇒ <code>Promise</code>
+    * [.updateUserPassword(options)](#module_smartschool-client.updateUserPassword) ⇒ <code>Promise</code>
+    * [.setUserStateActive(options)](#module_smartschool-client.setUserStateActive) ⇒ <code>Promise</code>
+    * [.setUserStateInactive(options)](#module_smartschool-client.setUserStateInactive) ⇒ <code>Promise</code>
+    * [.setUserStateAdministrative(options)](#module_smartschool-client.setUserStateAdministrative) ⇒ <code>Promise</code>
+    * [.addUserToGroup(options)](#module_smartschool-client.addUserToGroup) ⇒ <code>Promise</code>
+    * [.removeUserFromGroup(options)](#module_smartschool-client.removeUserFromGroup) ⇒ <code>Promise</code>
+    * [.getUsers([options])](#module_smartschool-client.getUsers) ⇒ <code>Promise.&lt;Array.&lt;Object&gt;&gt;</code>
+    * [.getClasses([options])](#module_smartschool-client.getClasses) ⇒ <code>Promise.&lt;Array.&lt;Object&gt;&gt;</code>
+    * [.getGroup([options])](#module_smartschool-client.getGroup) ⇒ <code>Promise.&lt;Object&gt;</code>
+    * [.getGroups([options])](#module_smartschool-client.getGroups) ⇒ <code>Promise.&lt;Array.&lt;Object&gt;&gt;</code> \| <code>Promise.&lt;Object&gt;</code>
+    * [.createGroup(options)](#module_smartschool-client.createGroup) ⇒ <code>Promise</code>
+    * [.updateGroup(options)](#module_smartschool-client.updateGroup) ⇒ <code>Promise</code>
+    * [.getUserPhoto(userName)](#module_smartschool-client.getUserPhoto) ⇒ <code>Promise.&lt;string&gt;</code>
+    * [.setUserPhoto(userName, photo)](#module_smartschool-client.setUserPhoto) ⇒ <code>Promise</code>
+    * [.sendMessage(options)](#module_smartschool-client.sendMessage) ⇒ <code>Promise</code>
+
+<a name="module_smartschool-client.SmartSchoolServiceError"></a>
+
+### smartschool-client.SmartSchoolServiceError
+Custom Error class die een error van de Smartschool service representeert
+
+**Kind**: static class of [<code>smartschool-client</code>](#module_smartschool-client)  
+<a name="new_module_smartschool-client.SmartSchoolServiceError_new"></a>
+
+#### new SmartSchoolServiceError(message, code)
+Constructor
+
+
+| Param | Type |
+| --- | --- |
+| message | <code>string</code> | 
+| code | <code>string</code> \| <code>number</code> | 
+
+<a name="module_smartschool-client.SOAPError"></a>
+
+### smartschool-client.SOAPError
+Custom Error class die een SOAP error representeert
+
+**Kind**: static class of [<code>smartschool-client</code>](#module_smartschool-client)  
+<a name="new_module_smartschool-client.SOAPError_new"></a>
+
+#### new SOAPError(message)
+Constructor
+
+
+| Param | Type |
+| --- | --- |
+| message | <code>string</code> | 
+
+<a name="module_smartschool-client.SmartSchoolClientError"></a>
+
+### smartschool-client.SmartSchoolClientError
+Smartschool-client error
+
+**Kind**: static class of [<code>smartschool-client</code>](#module_smartschool-client)  
+<a name="new_module_smartschool-client.SmartSchoolClientError_new"></a>
+
+#### new SmartSchoolClientError(message)
+Constructor
+
+
+| Param | Type |
+| --- | --- |
+| message | <code>string</code> | 
 
 <a name="module_smartschool-client.init"></a>
 
@@ -92,12 +139,14 @@ en vervolgens addUserToGroup om de gebruiker te verplaatsen.
 | options.password | <code>string</code> |  | Paswoord |
 | options.firstName | <code>string</code> |  | Voornaam |
 | options.lastName | <code>string</code> |  | Achternaam |
-| options.registrationNumber | <code>string</code> |  | stamboeknummer |
+| [options.registrationNumber] | <code>string</code> |  | stamboeknummer |
 | [options.internalNumber] | <code>string</code> |  | Intern nummer |
 | [options.gender] | <code>string</code> | <code>&quot;m&quot;</code> | Geslacht |
 | [options.role] | <code>string</code> | <code>&quot;andere&quot;</code> | Basisrol |
 | [options.birthDate] | <code>string</code> |  | Geboortedatum. Formaat YYYY-MM-DD of DD-MM-YYYY |
 | [options.email] | <code>string</code> |  | E-mail adres |
+| [options.roosterCode] | <code>string</code> |  | Roostercode (untis) |
+| [options.mobilePhone] | <code>string</code> |  | Mobiel nummer |
 
 <a name="module_smartschool-client.updateUser"></a>
 
@@ -381,53 +430,4 @@ Attachements toevoegen
 | [options.fromUser] | <code>string</code> | <code>&quot;&#x27;Null&#x27;&quot;</code> | Uniek veld gebruiker van de verzender. Geef 'Null' mee om geen verzender in te stellen |
 | [options.accountType] | <code>number</code> | <code>0</code> | Accounttype:'0' = hoofdaccount, '1' = co-account 1 of '2' = co-account 2 ...) |
 | [options.attachments] | <code>Array.&lt;Object&gt;</code> | <code>[]</code> | Bijlagen (1 of meer) in base64 encoding (optioneel) |
-
-<a name="module_smartschool-client.SmartSchoolServiceError"></a>
-
-### smartschool-client~SmartSchoolServiceError
-Custom Error class die een error van de Smartschool service representeert
-
-**Kind**: inner class of [<code>smartschool-client</code>](#module_smartschool-client)  
-<a name="new_module_smartschool-client.SmartSchoolServiceError_new"></a>
-
-#### new SmartSchoolServiceError(message, code)
-Constructor
-
-
-| Param | Type |
-| --- | --- |
-| message | <code>string</code> | 
-| code | <code>string</code> \| <code>number</code> | 
-
-<a name="module_smartschool-client.SOAPError"></a>
-
-### smartschool-client~SOAPError
-Custom Error class die een SOAP error representeert
-
-**Kind**: inner class of [<code>smartschool-client</code>](#module_smartschool-client)  
-<a name="new_module_smartschool-client.SOAPError_new"></a>
-
-#### new SOAPError(message)
-Constructor
-
-
-| Param | Type |
-| --- | --- |
-| message | <code>string</code> | 
-
-<a name="module_smartschool-client.SmartSchoolClientError"></a>
-
-### smartschool-client~SmartSchoolClientError
-Smartschool-client error
-
-**Kind**: inner class of [<code>smartschool-client</code>](#module_smartschool-client)  
-<a name="new_module_smartschool-client.SmartSchoolClientError_new"></a>
-
-#### new SmartSchoolClientError(message)
-Constructor
-
-
-| Param | Type |
-| --- | --- |
-| message | <code>string</code> | 
 
