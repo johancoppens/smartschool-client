@@ -6,21 +6,21 @@
  * @module smartschool-client
  */
 
-const soap = require('soap')
-const xmlParse = require('xml2js').parseStringPromise
+const soap = require("soap");
+const xmlParse = require("xml2js").parseStringPromise;
 // const util = require('util')
 
 module.exports = (function () {
-  'use strict'
+  "use strict";
 
-  let initialized = false
-  let errorCodes = {}
+  let initialized = false;
+  let errorCodes = {};
 
   const config = {
     apiWSDL: null,
-    accessCode: null
-  }
-  let soapClient = null
+    accessCode: null,
+  };
+  let soapClient = null;
 
   /**
    * Initialiseren van de smartschool-client API module
@@ -31,17 +31,17 @@ module.exports = (function () {
    * @returns {Promise}
    */
   const init = async ({ apiWSDL = r(), accessCode = r() } = {}) => {
-    config.apiWSDL = apiWSDL
-    config.accessCode = accessCode
+    config.apiWSDL = apiWSDL;
+    config.accessCode = accessCode;
     try {
-      soapClient = await soap.createClientAsync(config.apiWSDL)
+      soapClient = await soap.createClientAsync(config.apiWSDL);
       // console.log(util.inspect(soapClient.describe(), true, null))
     } catch (err) {
-      throw new SOAPError('createClientAsync')
+      throw new SOAPError("createClientAsync");
     }
-    initialized = true
-    errorCodes = await getErrorCodes()
-  }
+    initialized = true;
+    errorCodes = await getErrorCodes();
+  };
 
   /**
    * Met deze methode kan je alle velden (behalve wachtwoorden en profielfoto)
@@ -55,21 +55,22 @@ module.exports = (function () {
    * @see {@link ./examples/01_get_user_transform.js}
    */
   const getUser = async ({ userId = r(), transformation } = {}) => {
-    if (!initialized) e('Module smartschool-client niet geïnitialiseerd met init()')
+    if (!initialized)
+      e("Module smartschool-client niet geïnitialiseerd met init()");
     const params = {
-      accesscode: config.accessCode
-    }
-    let res
+      accesscode: config.accessCode,
+    };
+    let res;
     // Gebruikersnaam of intern nummer?
     if (isNaN(userId)) {
-      params.username = userId
-      res = await soapClient.getUserDetailsByUsernameAsync(params)
+      params.username = userId;
+      res = await soapClient.getUserDetailsByUsernameAsync(params);
     } else {
-      params.number = userId
-      res = await soapClient.getUserDetailsByNumberAsync(params)
+      params.number = userId;
+      res = await soapClient.getUserDetailsByNumberAsync(params);
     }
-    return handleJSONDataResponse(res, transformation)
-  }
+    return handleJSONDataResponse(res, transformation);
+  };
 
   /**
    * Voegt een nieuwe gebruiker toe.
@@ -87,12 +88,14 @@ module.exports = (function () {
    * @param {string} options.password Paswoord
    * @param {string} options.firstName Voornaam
    * @param {string} options.lastName Achternaam
-   * @param {string} options.registrationNumber stamboeknummer
+   * @param {string} [options.registrationNumber] stamboeknummer
    * @param {string} [options.internalNumber] Intern nummer
    * @param {string} [options.gender = m] Geslacht
    * @param {string} [options.role = andere] Basisrol
    * @param {string} [options.birthDate] Geboortedatum. Formaat YYYY-MM-DD of DD-MM-YYYY
    * @param {string} [options.email] E-mail adres
+   * @param {string} [options.roosterCode] Roostercode (untis)
+   * @param {string} [options.mobilePhone] Mobiel nummer
    * @returns {Promise}
    * @see {@link ./examples/02_create_user.js}
    */
@@ -104,13 +107,15 @@ module.exports = (function () {
     lastName = r(),
     registrationNumber, // stamboeknummer
     internalNumber, // intern nummer
-    gender = 'm',
-    role = 'andere',
+    gender = "m",
+    role = "andere",
     birthDate,
-    email
+    email,
+    roosterCode,
+    mobilePhone,
   } = {}) => {
     // Eerst controleren of gebruiker al bestaat
-    const user = await getUser({ userId: userName })
+    const user = await getUser({ userId: userName });
     if (user === null) {
       // Niet gevonden
       const params = {
@@ -124,14 +129,16 @@ module.exports = (function () {
         sex: gender,
         basisrol: role,
         birthday: birthDate,
-        email: email
-      }
-      const res = await soapClient.saveUserAsync(params)
-      handleResultCodeResponse(res)
+        email: email,
+        untis: roosterCode,
+        mobilephone: mobilePhone,
+      };
+      const res = await soapClient.saveUserAsync(params);
+      handleResultCodeResponse(res);
     } else {
-      e(`Error createUser, gebruiker ${userName} bestaat reeds`)
+      e(`Error createUser, gebruiker ${userName} bestaat reeds`);
     }
-  }
+  };
 
   /**
    * Update een bestaande gebruiker.
@@ -163,10 +170,10 @@ module.exports = (function () {
     gender,
     role,
     birthDate,
-    email
+    email,
   } = {}) => {
     // Eerst controleren of gebruiker bestaat
-    const user = await getUser({ userId: userName })
+    const user = await getUser({ userId: userName });
     if (user) {
       const params = {
         accesscode: config.accessCode,
@@ -176,14 +183,14 @@ module.exports = (function () {
         sex: gender,
         basisrol: role,
         birthday: birthDate,
-        email: email
-      }
-      const res = await soapClient.saveUserAsync(params)
-      return handleJSONDataResponse(res)
+        email: email,
+      };
+      const res = await soapClient.saveUserAsync(params);
+      return handleJSONDataResponse(res);
     } else {
-      e(`Error updateUser, gebruiker ${userName} bestaat niet`)
+      e(`Error updateUser, gebruiker ${userName} bestaat niet`);
     }
-  }
+  };
 
   /**
    * Update gebruikersnaam. Kan alleen als er een intern nummer is ingevuld in Smartschool.
@@ -194,15 +201,18 @@ module.exports = (function () {
    * @returns {Promise}
    * @see {@link ./examples/04_update_user_name.js}
    */
-  const updateUserName = async ({ internalNumber = r(), newUserName = r() } = {}) => {
+  const updateUserName = async ({
+    internalNumber = r(),
+    newUserName = r(),
+  } = {}) => {
     const params = {
       accesscode: config.accessCode,
       internNumber: internalNumber,
-      newUsername: newUserName
-    }
-    const res = await soapClient.changeUsernameAsync(params)
-    return handleJSONDataResponse(res)
-  }
+      newUsername: newUserName,
+    };
+    const res = await soapClient.changeUsernameAsync(params);
+    return handleJSONDataResponse(res);
+  };
 
   /**
    * Update paswoorden Hoofd- en co-accounts gebruiker.
@@ -218,17 +228,17 @@ module.exports = (function () {
   const updateUserPassword = async ({
     userName = r(),
     password = r(),
-    accountType = 0
+    accountType = 0,
   } = {}) => {
     const params = {
       accesscode: config.accessCode,
       userIdentifier: userName,
       password: password,
-      accountType: accountType
-    }
-    const res = await soapClient.savePasswordAsync(params)
-    handleResultCodeResponse(res)
-  }
+      accountType: accountType,
+    };
+    const res = await soapClient.savePasswordAsync(params);
+    handleResultCodeResponse(res);
+  };
 
   /**
    * Zet de status van een gebruiker op actief
@@ -239,8 +249,8 @@ module.exports = (function () {
    * @see {@link ./examples/06_set_user_state.js}
    */
   const setUserStateActive = async ({ userName = r() } = {}) => {
-    await setUserState({ userName: userName, state: 'active' })
-  }
+    await setUserState({ userName: userName, state: "active" });
+  };
 
   /**
    * Zet de status van een gebruiker op inactief
@@ -251,8 +261,8 @@ module.exports = (function () {
    * @see {@link ./examples/06_set_user_state.js}
    */
   const setUserStateInactive = async ({ userName = r() } = {}) => {
-    await setUserState({ userName: userName, state: 'inactive' })
-  }
+    await setUserState({ userName: userName, state: "inactive" });
+  };
 
   /**
    * Zet de status van een gebruiker op administratief
@@ -263,8 +273,8 @@ module.exports = (function () {
    * @see {@link ./examples/06_set_user_state.js}
    */
   const setUserStateAdministrative = async ({ userName = r() } = {}) => {
-    await setUserState({ userName: userName, state: 'administrative' })
-  }
+    await setUserState({ userName: userName, state: "administrative" });
+  };
 
   /**
    * Voegt een gebruiker toe aan een groep of klas.
@@ -277,16 +287,16 @@ module.exports = (function () {
    */
   const addUserToGroup = async ({
     userName = r(),
-    groupOrClassId = r()
+    groupOrClassId = r(),
   } = {}) => {
     const params = {
       accesscode: config.accessCode,
       userIdentifier: userName,
-      class: groupOrClassId
-    }
-    const res = await soapClient.saveUserToClassAsync(params)
-    handleResultCodeResponse(res)
-  }
+      class: groupOrClassId,
+    };
+    const res = await soapClient.saveUserToClassAsync(params);
+    handleResultCodeResponse(res);
+  };
 
   /**
    * Verwijdert een gebruiker uit een groep of klas.
@@ -299,16 +309,16 @@ module.exports = (function () {
    */
   const removeUserFromGroup = async ({
     userName = r(),
-    groupOrClassId = r()
+    groupOrClassId = r(),
   } = {}) => {
     const params = {
       accesscode: config.accessCode,
       userIdentifier: userName,
-      class: groupOrClassId
-    }
-    const res = await soapClient.removeUserFromGroupAsync(params)
-    handleResultCodeResponse(res)
-  }
+      class: groupOrClassId,
+    };
+    const res = await soapClient.removeUserFromGroupAsync(params);
+    handleResultCodeResponse(res);
+  };
 
   /**
    * Haalt alle unieke gebruikers van het platform op met alle beschikbare velden.
@@ -324,16 +334,21 @@ module.exports = (function () {
    * @see {@link ./examples/09_get_users_in_group.js}
    * @see {@link ./examples/10_get_users_in_group_transform.js}
    */
-  const getUsers = async ({ groupId, recursive = true, transformation } = {}) => {
-    if (!initialized) e('Module smartschool-client niet geïnitialiseerd met init()')
+  const getUsers = async ({
+    groupId,
+    recursive = true,
+    transformation,
+  } = {}) => {
+    if (!initialized)
+      e("Module smartschool-client niet geïnitialiseerd met init()");
     const params = {
       accesscode: config.accessCode,
-      code: groupId || '', // '' voor alle gebruikers
-      recursive: recursive ? 1 : 0
-    }
-    const res = await soapClient.getAllAccountsExtendedAsync(params)
-    return handleJSONDataResponse(res, transformation)
-  }
+      code: groupId || "", // '' voor alle gebruikers
+      recursive: recursive ? 1 : 0,
+    };
+    const res = await soapClient.getAllAccountsExtendedAsync(params);
+    return handleJSONDataResponse(res, transformation);
+  };
 
   /**
    * Haalt een lijst met alle klassen op.
@@ -344,13 +359,14 @@ module.exports = (function () {
    * @see {@link ./examples/11_get_classes.js}
    */
   const getClasses = async ({ transformation } = {}) => {
-    if (!initialized) e('Module smartschool-client niet geïnitialiseerd met init()')
+    if (!initialized)
+      e("Module smartschool-client niet geïnitialiseerd met init()");
     const params = {
-      accesscode: config.accessCode
-    }
-    const res = await soapClient.getClassListJsonAsync(params)
-    return handleJSONDataResponse(res, transformation)
-  }
+      accesscode: config.accessCode,
+    };
+    const res = await soapClient.getClassListJsonAsync(params);
+    return handleJSONDataResponse(res, transformation);
+  };
 
   /**
    * Haalt een groep of klas op uit het Smartschoolplatform.
@@ -362,14 +378,15 @@ module.exports = (function () {
    * @see {@link ./examples/12_get_group.js}
    */
   const getGroup = async ({ groupOrClassId = r(), transformation } = {}) => {
-    if (!initialized) e('Module smartschool-client niet geïnitialiseerd met init()')
-    let res = await getGroups()
+    if (!initialized)
+      e("Module smartschool-client niet geïnitialiseerd met init()");
+    let res = await getGroups();
     res = res.find((obj) => {
-      if (obj.code === groupOrClassId) return obj
-    })
-    if (!res) return null
-    return transformation ? transformObject(res, transformation) : res
-  }
+      if (obj.code === groupOrClassId) return obj;
+    });
+    if (!res) return null;
+    return transformation ? transformObject(res, transformation) : res;
+  };
 
   /**
    * Haalt alle groepen en klassen van het Smartschoolplatform.
@@ -384,42 +401,39 @@ module.exports = (function () {
    * @see {@link ./examples/13_getGroups_flat.js}
    * @see {@link ./examples/14_getGroups_tree.js}
    */
-  const getGroups = async ({
-    flat = true,
-    groupId,
-    transformation
-  } = {}) => {
-    if (transformation && flat === false) e('options.transformation is niet toegestaan als flat=false')
-    if (!initialized) e('Module smartschool-client niet geïnitialiseerd met init()')
+  const getGroups = async ({ flat = true, groupId, transformation } = {}) => {
+    if (transformation && flat === false)
+      e("options.transformation is niet toegestaan als flat=false");
+    if (!initialized)
+      e("Module smartschool-client niet geïnitialiseerd met init()");
     const params = {
-      accesscode: config.accessCode
-    }
-    const res = await soapClient.getAllGroupsAndClassesAsync(params)
+      accesscode: config.accessCode,
+    };
+    const res = await soapClient.getAllGroupsAndClassesAsync(params);
     // res[0].return.$value is data als base64 encoded xml string. Parse into a js object
-    let data = await xmlParse((Buffer.from(res[0].return.$value, 'base64').toString('utf-8')))
-    if (typeof data === 'object') {
-      data = cleanTree(data.groups.group[0]) // Groep "Iedereen"
+    let data = await xmlParse(
+      Buffer.from(res[0].return.$value, "base64").toString("utf-8")
+    );
+    if (typeof data === "object") {
+      data = cleanTree(data.groups.group[0]); // Groep "Iedereen"
       if (groupId) {
-        data = findGroupSubTree(data, groupId)
+        data = findGroupSubTree(data, groupId);
       }
       if (flat) {
         if (transformation) {
-          return transformArrayOfObjects(
-            flattenTree(data),
-            transformation
-          )
+          return transformArrayOfObjects(flattenTree(data), transformation);
         } else {
-          return flattenTree(data)
+          return flattenTree(data);
         }
       } else {
-        return data
+        return data;
       }
     }
     // Kan niet anders dan een Smartschool Service returncode
-    const code = parseInt(data) // String en int door elkaar gebruikt in api
-    if (code === 12) return null // Niet gevonden. Geen echte error, return null
-    if (code !== 0) throw new SmartSchoolServiceError(errorCodes[code], code)
-  }
+    const code = parseInt(data); // String en int door elkaar gebruikt in api
+    if (code === 12) return null; // Niet gevonden. Geen echte error, return null
+    if (code !== 0) throw new SmartSchoolServiceError(errorCodes[code], code);
+  };
 
   /**
    * Voegt een nieuwe groep toe.
@@ -439,10 +453,10 @@ module.exports = (function () {
     groupId = r(),
     description,
     parent,
-    untis
+    untis,
   } = {}) => {
     // Eerst controleren of groep al bestaat
-    const group = await getGroup({ groupOrClassId: groupId })
+    const group = await getGroup({ groupOrClassId: groupId });
     if (group === null) {
       // Niet gevonden
       const params = {
@@ -451,14 +465,14 @@ module.exports = (function () {
         desc: description,
         code: groupId,
         parent: parent,
-        untis: untis
-      }
-      const res = await soapClient.saveGroupAsync(params)
-      handleResultCodeResponse(res)
+        untis: untis,
+      };
+      const res = await soapClient.saveGroupAsync(params);
+      handleResultCodeResponse(res);
     } else {
-      e(`Error createGroup, groep ${groupId} bestaat reeds`)
+      e(`Error createGroup, groep ${groupId} bestaat reeds`);
     }
-  }
+  };
 
   /**
    * Wijzigt een groep.
@@ -481,10 +495,10 @@ module.exports = (function () {
     groupId = r(),
     description,
     parent,
-    untis
+    untis,
   } = {}) => {
     // Eerst controleren of groep bestaat
-    const group = await getGroup({ groupOrClassId: groupId })
+    const group = await getGroup({ groupOrClassId: groupId });
     if (group !== null) {
       // Gevonden
       const params = {
@@ -493,14 +507,14 @@ module.exports = (function () {
         desc: description,
         code: groupId,
         parent: parent,
-        untis: untis
-      }
-      const res = await soapClient.saveGroupAsync(params)
-      handleResultCodeResponse(res)
+        untis: untis,
+      };
+      const res = await soapClient.saveGroupAsync(params);
+      handleResultCodeResponse(res);
     } else {
-      e(`Error updateGroup, groep ${groupId} niet gevonden`)
+      e(`Error updateGroup, groep ${groupId} niet gevonden`);
     }
-  }
+  };
 
   /**
    * Met deze methode kan je de foto van een gebruiker ophalen als base64
@@ -511,20 +525,21 @@ module.exports = (function () {
    * @see {@link ./examples/17_get_user_photo.js}
    */
   const getUserPhoto = async ({ userName = r() } = {}) => {
-    if (!initialized) e('Module smartschool-client niet geïnitialiseerd met init()')
+    if (!initialized)
+      e("Module smartschool-client niet geïnitialiseerd met init()");
     const params = {
       accesscode: config.accessCode,
-      userIdentifier: userName
-    }
-    const res = await soapClient.getAccountPhotoAsync(params)
+      userIdentifier: userName,
+    };
+    const res = await soapClient.getAccountPhotoAsync(params);
     // We veronderstellen hier dat als res niet langer is dan 10 tekens,
     // de smartschool api een errorcode doorgeeft.
     if (res[0].return.$value.length < 10) {
-      const code = res[0].return.$value
-      throw new SmartSchoolServiceError(errorCodes[code], code)
+      const code = res[0].return.$value;
+      throw new SmartSchoolServiceError(errorCodes[code], code);
     }
-    return res[0].return.$value
-  }
+    return res[0].return.$value;
+  };
 
   /**
    * Met deze methode kan je de foto van een gebruiker uploaden naar Smartschool als base64
@@ -535,15 +550,16 @@ module.exports = (function () {
    * @returns {Promise}
    */
   const setUserPhoto = async ({ userName = r(), photo = r() } = {}) => {
-    if (!initialized) e('Module smartschool-client niet geïnitialiseerd met init()')
+    if (!initialized)
+      e("Module smartschool-client niet geïnitialiseerd met init()");
     const params = {
       accesscode: config.accessCode,
       userIdentifier: userName,
-      photo: photo
-    }
-    const res = await soapClient.setAccountPhotoAsync(params)
-    handleResultCodeResponse(res)
-  }
+      photo: photo,
+    };
+    const res = await soapClient.setAccountPhotoAsync(params);
+    handleResultCodeResponse(res);
+  };
 
   /**
    * Via deze methode kan je een bericht naar de hoofdaccount of een co-account van een bepaalde gebruiker sturen. Het opgeven van de bijlage is optioneel.
@@ -569,9 +585,9 @@ module.exports = (function () {
     userName = r(),
     title = r(),
     body = r(),
-    fromUser = 'Null',
+    fromUser = "Null",
     accountType = 0,
-    attachments = []
+    attachments = [],
   } = {}) => {
     const params = {
       accesscode: config.accessCode,
@@ -580,21 +596,21 @@ module.exports = (function () {
       body: body,
       senderIdentifier: fromUser,
       coaccount: accountType,
-      attachments: attachments
-    }
+      attachments: attachments,
+    };
     // Workaround error senderIdentifier = 'Null' not accepted. Simply delete it
-    if (params.senderIdentifier === 'Null') delete params.senderIdentifier
+    if (params.senderIdentifier === "Null") delete params.senderIdentifier;
 
     if (params.attachments === []) {
-      delete params.attachments
+      delete params.attachments;
     } else {
-      params.attachments = JSON.stringify(params.attachments)
+      params.attachments = JSON.stringify(params.attachments);
     }
 
-    const res = await soapClient.sendMsgAsync(params)
+    const res = await soapClient.sendMsgAsync(params);
 
-    handleResultCodeResponse(res)
-  }
+    handleResultCodeResponse(res);
+  };
 
   // PRIVATE API FUNCTIONS
   // Non public exposed Smartschool api functions. Only privately used in this module
@@ -604,9 +620,9 @@ module.exports = (function () {
    * @returns {Promise<object>}
    */
   const getErrorCodes = async () => {
-    const res = await soapClient.returnJsonErrorCodesAsync(null)
-    return handleJSONDataResponse(res)
-  }
+    const res = await soapClient.returnJsonErrorCodesAsync(null);
+    return handleJSONDataResponse(res);
+  };
 
   /**
    * Met deze methode kan de status van een gebruiker gewijzigd worden.
@@ -615,18 +631,15 @@ module.exports = (function () {
    * @param {string} options.state actief, inactief of administratief
    * @returns {Promise}
    */
-  const setUserState = async ({
-    userName = r(),
-    state = r()
-  } = {}) => {
+  const setUserState = async ({ userName = r(), state = r() } = {}) => {
     const params = {
       accesscode: config.accessCode,
       userIdentifier: userName,
-      accountStatus: state
-    }
-    const res = await soapClient.setAccountStatusAsync(params)
-    handleResultCodeResponse(res)
-  }
+      accountStatus: state,
+    };
+    const res = await soapClient.setAccountStatusAsync(params);
+    handleResultCodeResponse(res);
+  };
 
   // CUSTOM ERROR CLASSES
 
@@ -641,10 +654,10 @@ module.exports = (function () {
      * @param {string} message
      * @param {string|number} code
      */
-    constructor (message, code) {
-      super(message)
-      this.name = 'SmartSchoolServiceError'
-      this.code = code
+    constructor(message, code) {
+      super(message);
+      this.name = "SmartSchoolServiceError";
+      this.code = code;
     }
   }
 
@@ -658,9 +671,9 @@ module.exports = (function () {
      * Constructor
      * @param {string} message
      */
-    constructor (message) {
-      super(message)
-      this.name = 'SOAPError'
+    constructor(message) {
+      super(message);
+      this.name = "SOAPError";
     }
   }
 
@@ -674,9 +687,9 @@ module.exports = (function () {
      * Constructor
      * @param {string} message
      */
-    constructor (message) {
-      super(message)
-      this.name = 'SmartSchoolClientError'
+    constructor(message) {
+      super(message);
+      this.name = "SmartSchoolClientError";
     }
   }
 
@@ -684,49 +697,51 @@ module.exports = (function () {
 
   // Handles a JSON SOAP response that returns data
   const handleJSONDataResponse = (resp, transformation) => {
-    const data = JSON.parse(resp[0].return.$value)
-    if (typeof data === 'object') {
+    const data = JSON.parse(resp[0].return.$value);
+    if (typeof data === "object") {
       if (Array.isArray(data)) {
         return cleanArrayOfObjects(
           transformation ? transformArrayOfObjects(data, transformation) : data
-        )
+        );
       } else {
         return cleanObject(
           transformation ? transformObject(data, transformation) : data
-        )
+        );
       }
     }
     // Kan niet anders dan een Smartschool Service returncode
-    const code = parseInt(data) // String en int door elkaar gebruikt in api
-    if (code === 12) return null // Niet gevonden. Geen echte error, return null
-    if (code !== 0) throw new SmartSchoolServiceError(errorCodes[code], code)
-  }
+    const code = parseInt(data); // String en int door elkaar gebruikt in api
+    if (code === 12) return null; // Niet gevonden. Geen echte error, return null
+    if (code !== 0) throw new SmartSchoolServiceError(errorCodes[code], code);
+  };
 
   // Handles responses that perform an action
   const handleResultCodeResponse = (resp) => {
-    const code = parseInt(JSON.parse(resp[0].return.$value)) // String en int door elkaar gebruikt in api
-    if (code !== 0) throw new SmartSchoolServiceError(errorCodes[code], code)
-  }
+    const code = parseInt(JSON.parse(resp[0].return.$value)); // String en int door elkaar gebruikt in api
+    if (code !== 0) throw new SmartSchoolServiceError(errorCodes[code], code);
+  };
 
   const cleanArrayOfObjects = (src) => {
     return src.map((obj) => {
-      return cleanObject(obj)
-    })
-  }
+      return cleanObject(obj);
+    });
+  };
 
   // Clean values
   // Empty strings to null
   // ISO date strings to real Date objects
   const cleanObject = (obj) => {
     Object.keys(obj).forEach((fld) => {
-      const val = obj[fld]
+      const val = obj[fld];
       // Dates like 2018-02-01
-      if (RegExp('^([0-9][0-9][0-9][0-9])-([0-9][0-9])-([0-9][0-9])$').test(val)) {
+      if (
+        RegExp("^([0-9][0-9][0-9][0-9])-([0-9][0-9])-([0-9][0-9])$").test(val)
+      ) {
         // Geen datum is 0000-00-00. Vervangen door null
-        if (val === '0000-00-00') {
-          obj[fld] = null
+        if (val === "0000-00-00") {
+          obj[fld] = null;
         } else {
-          obj[fld] = new Date(val)
+          obj[fld] = new Date(val);
         }
       }
       // Login tijden volgens pattern 2018-02-03 20:24:47;2018-02-03 20:24:47
@@ -735,128 +750,136 @@ module.exports = (function () {
       // Eerste deel: voorlaatste keer ingelogd, of met mobiele app?
       // We nemen tweede deel
       // Als er nog nooit is ingelogd staat er enkel een ;. Dit vervangen we door null value
-      if (RegExp(';([0-9][0-9][0-9][0-9])-([0-9][0-9])-([0-9][0-9]) ([0-9][0-9]):([0-9][0-9]):([0-9][0-9])$').test(val)) {
+      if (
+        RegExp(
+          ";([0-9][0-9][0-9][0-9])-([0-9][0-9])-([0-9][0-9]) ([0-9][0-9]):([0-9][0-9]):([0-9][0-9])$"
+        ).test(val)
+      ) {
         // extract last part after ;
-        const dat = RegExp('([0-9][0-9][0-9][0-9])-([0-9][0-9])-([0-9][0-9]) ([0-9][0-9]):([0-9][0-9]):([0-9][0-9])$').exec(val)[0].replace(' ', 'T')
-        obj[fld] = new Date(dat)
+        const dat = RegExp(
+          "([0-9][0-9][0-9][0-9])-([0-9][0-9])-([0-9][0-9]) ([0-9][0-9]):([0-9][0-9]):([0-9][0-9])$"
+        )
+          .exec(val)[0]
+          .replace(" ", "T");
+        obj[fld] = new Date(dat);
       }
       // Nooit ingelogd
-      if (val === ';') {
-        obj[fld] = null
+      if (val === ";") {
+        obj[fld] = null;
       }
       // Replace '' values with null
-      if (val === '') {
-        obj[fld] = null
+      if (val === "") {
+        obj[fld] = null;
       }
-    })
-    return obj
-  }
+    });
+    return obj;
+  };
 
   // Returns a new transformed array of transformed objects
   const transformArrayOfObjects = (src, transformation) => {
     return src.map((el) => {
-      return transformObject(el, transformation)
-    })
-  }
+      return transformObject(el, transformation);
+    });
+  };
 
   // Select and rename fields, and apply functions for calculated fields
   const transformObject = (obj, transformation) => {
-    const newObj = {}
+    const newObj = {};
     Object.keys(transformation).forEach((tKey) => {
-      if (typeof transformation[tKey] === 'function') {
+      if (typeof transformation[tKey] === "function") {
         // apply the function on object
-        newObj[tKey] = transformation[tKey](obj)
+        newObj[tKey] = transformation[tKey](obj);
       } else {
         if (obj[transformation[tKey]] !== undefined) {
-          newObj[tKey] = obj[transformation[tKey]]
+          newObj[tKey] = obj[transformation[tKey]];
         } else {
-          newObj[tKey] = null
+          newObj[tKey] = null;
         }
       }
-    })
-    return newObj
-  }
+    });
+    return newObj;
+  };
 
   const findGroupSubTree = (group, code) => {
-    let result = null
+    let result = null;
     if (group.code === code) {
-      return group
+      return group;
     }
     if (group.children) {
-      group.children.some(child => {
-        result = findGroupSubTree(child, code)
-        return result
-      })
+      group.children.some((child) => {
+        result = findGroupSubTree(child, code);
+        return result;
+      });
     }
-    return result
-  }
+    return result;
+  };
 
   const cleanTree = (obj = {}) => {
     Object.entries(obj).map((entry) => {
       switch (entry[0]) {
-        case 'children':
-          obj[entry[0]] = entry[1][0].group.map(el => {
-            return cleanTree(el)
-          })
-          break
-        case 'titu':
-          obj[entry[0]] = entry[1][0].user.map(el => {
-            return cleanTree(el)
-          })
-          break
+        case "children":
+          obj[entry[0]] = entry[1][0].group.map((el) => {
+            return cleanTree(el);
+          });
+          break;
+        case "titu":
+          obj[entry[0]] = entry[1][0].user.map((el) => {
+            return cleanTree(el);
+          });
+          break;
         default:
           switch (entry[1][0]) {
-            case '':
-              obj[entry[0]] = null
-              break
-            case '0':
-              obj[entry[0]] = false
-              break
-            case '1':
-              obj[entry[0]] = true
-              break
+            case "":
+              obj[entry[0]] = null;
+              break;
+            case "0":
+              obj[entry[0]] = false;
+              break;
+            case "1":
+              obj[entry[0]] = true;
+              break;
             default:
-              obj[entry[0]] = entry[1][0]
+              obj[entry[0]] = entry[1][0];
           }
       }
-    })
-    return obj
-  }
+    });
+    return obj;
+  };
 
   const flattenTree = (src) => {
-    const flat = []
-    flattenTreeObj(src, flat)
-    return flat
-  }
+    const flat = [];
+    flattenTreeObj(src, flat);
+    return flat;
+  };
 
   const flattenTreeObj = (obj, flat) => {
-    const newObj = {}
+    const newObj = {};
     Object.entries(obj).forEach((entry) => {
-      const childrenAsStrings = []
+      const childrenAsStrings = [];
       switch (entry[0]) {
-        case 'children':
+        case "children":
           obj[entry[0]].forEach((child) => {
-            childrenAsStrings.push({ code: child.code, name: child.name })
-            flattenTreeObj(child, flat)
-          })
-          newObj[entry[0]] = childrenAsStrings
-          break
+            childrenAsStrings.push({ code: child.code, name: child.name });
+            flattenTreeObj(child, flat);
+          });
+          newObj[entry[0]] = childrenAsStrings;
+          break;
         default:
-          newObj[entry[0]] = entry[1]
+          newObj[entry[0]] = entry[1];
       }
-    })
-    flat.push(newObj)
-  }
+    });
+    flat.push(newObj);
+  };
 
   // Utility shortcut functions
   // Parameter error func used if parameter is required
   const r = () => {
-    e('Vereiste parameter is niet opgegeven')
-  }
+    e("Vereiste parameter is niet opgegeven");
+  };
   // Shortcut for throwing an error
   const e = (message) => {
-    throw new SmartSchoolClientError(message)
-  }
+    throw new SmartSchoolClientError(message);
+  };
   // Shortcut for console.log
   // const l = (v) => {
   //   console.log(util.inspect(v, { color: true, depth: null }))
@@ -887,6 +910,6 @@ module.exports = (function () {
     getUserPhoto,
     setUserPhoto,
     sendMessage,
-    transformArrayOfObjects
-  }
-}())
+    transformArrayOfObjects,
+  };
+})();
