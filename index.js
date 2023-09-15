@@ -641,6 +641,10 @@ module.exports = (function () {
     handleResultCodeResponse(res);
   };
 
+  const getSoapClient = async () => {
+    return soapClient;
+  };
+
   // CUSTOM ERROR CLASSES
 
   /**
@@ -911,6 +915,6 @@ module.exports = (function () {
     setUserPhoto,
     sendMessage,
     transformArrayOfObjects,
-    soapClient,
+    getSoapClient,
   };
 })();
