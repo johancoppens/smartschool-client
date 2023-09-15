@@ -911,5 +911,6 @@ module.exports = (function () {
     setUserPhoto,
     sendMessage,
     transformArrayOfObjects,
+    soapClient,
   };
 })();
